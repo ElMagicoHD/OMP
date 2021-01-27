@@ -1,5 +1,6 @@
 import networkx as nx
 import pandas as pd
+import numpy as np
 
 
 def create_example_graph():
@@ -58,18 +59,26 @@ def create_grids(G: nx.classes.graph.Graph, number_of_grids_per_level=4, number_
     max_horizontal = max(x)
 
     # calculate the step size
-    x_step_size = (max_vertical - min_vertical) / number_of_grids_per_level
-    y_step_size = (max_horizontal - min_horizontal) / number_of_grids_per_level
+    hor_steps = np.linspace(min_horizontal, max_horizontal, num=number_of_grids_per_level + 1)
+    hor_steps[-1] += 1  # to get those close to the interval
+    ver_steps = np.linspace(min_vertical, max_vertical, num=number_of_grids_per_level + 1)
+    ver_steps[-1] += 1  # to get those close to the interval
 
-    #creating dict with gridattributes
-    node_layers = dict.fromkeys(G.nodes(),{})
-    for node in node_layers:
-        for i in range(number_of_levels):
-            index = "level" + str(i)
-            node_layers[node][index] = -1 #initializing with -1
+    # creating dict with grid attributes
+    node_layers = dict.fromkeys(G.nodes(), {})
+    # O(nogpl^2 * |V|)
+    for i in range(number_of_grids_per_level):  # O(number_of_grids_per_level
+        for j in range(number_of_grids_per_level):  # O(number_of_grids_per_level)
+            delete = []
+            for v, tup in pos.items():  # O(|V|)
+                if hor_steps[i] <= tup[0] < hor_steps[i + 1] and \
+                        ver_steps[j] <= tup[1] < ver_steps[j + 1]:
+                    node_layers[v] = {"grid": str(i) + ";" + str(j)}
+                    delete.append(v)
+            # to eliminate multiple checking
+            for d in delete:
+                pos.pop(d)
 
-    for gridx in range(number_of_grids_per_level):
-        for gridy in range(number_of_grids_per_level):
-            break
+    nx.set_node_attributes(G, node_layers, "grid")
 
     return G
