@@ -14,6 +14,10 @@ def compute_convex_hull(graph, nodes):
     df = df[nodes]
     sor = df.sort_values(by=[0, 1], axis=1)
 
+    # function that calculates the angle of three points
+    # < 0 if adding point a results in a clock-wise angle
+    # > 0 if adding point a results in a anti-clock-wise angle
+    # = 0 if adding point a lies on a straight line with path b->c
     def cross_product(a, b, c):
         a_x, a_y = df[a][0], df[a][1]
         b_x, b_y = df[b][0], df[b][1]
@@ -23,12 +27,12 @@ def compute_convex_hull(graph, nodes):
 
     U = []
     L = []
-
+    # calculate lower convex hull
     for v in sor:
         while len(L) >= 2 and cross_product(L[-2], L[-1], v) <= 0:
             L.pop()
         L.append(v)
-
+    # reverse list and then calculate upper convex part
     for v in sor.iloc[:, ::-1]:
         while len(U) >= 2 and cross_product(U[-2], U[-1], v) <= 0:
             U.pop()
@@ -41,10 +45,10 @@ def two_phase_convex_hull(G, Q):
     P = []
 
     for node in Q:
-        neighbors = nx.all_neighbors(graph=G, node=node)
+        #neighbors = nx.all_neighbors(graph=G, node=node)
         P.append(node)
-        for neighbor in neighbors:
-            P.append(neighbor)
+        #for neighbor in neighbors:
+        #    P.append(neighbor)
 
     # eliminate duplicates
     P = list(set(P))
