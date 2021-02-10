@@ -49,3 +49,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+#too big data
+data/grid_1km_surf.gpkg
+data/
