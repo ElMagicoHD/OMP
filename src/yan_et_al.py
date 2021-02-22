@@ -70,3 +70,19 @@ def is_inside_of_convex_hull(hull, p, pos):
         if ccw <= 0:
             return True
     return False
+
+
+def greedy_algorithm(G,Q):
+
+    #compute center of gravity
+    q_x, q_y = 0, 0
+    pos = nx.get_node_attributes(G, "pos")
+    for v in Q:
+        q_x += pos[v][0]
+        q_y += pos[v][1]
+    size_of_q = len(Q)
+    q_x = q_x/size_of_q
+    q_y = q_y/size_of_q
+    #TODO: build k-d-tree and perform NN search!
+
+    return None
