@@ -2,7 +2,7 @@ import uuid
 
 
 # class for nodes with useful attributes and unique id using uuid4() maybe useful. Maybe not
-class Node:
+class Node(object):
 
     def __init__(self, name, pos_x, pos_y):
         self.name = name
@@ -10,6 +10,9 @@ class Node:
         self.pos_y = pos_y
         self.id = uuid.uuid4()
         self.edges = []
+        self.left = None
+        self.right = None
+        
 
     def __eq__(self, other):
         return self.id == other.id and self.name == other.name
