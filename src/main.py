@@ -12,7 +12,7 @@ from bspgraph import create_example_graph, create_grids
 def calculate_opm():
     G = create_example_graph()
 
-    # Q = ['G', 'H', 'N']
+    Q = ['G', 'H', 'N']
     # # H = two_phase_convex_hull(G,Q)
     # # print(H)
     # opm = yan.baseline_opm(Q=Q, G=G)
@@ -28,12 +28,12 @@ def calculate_opm():
     #     length = nx.shortest_path_length(G, q, opm, weight='weight')
     #     print('Shortest path from {} to {} is: \n {} \n with length: {}'.format(q, opm, path, length))
     #
-    # yan.greedy_algorithm(G=G, Q=Q)
-    # pos = nx.get_node_attributes(G, "pos")
-    # w = nx.get_edge_attributes(G, "weight")
-    # nx.draw_networkx(G, pos=pos)
-    # nx.draw_networkx_edge_labels(G, edge_labels=w, pos=pos)
-    # plt.show()
+    yan.greedy_algorithm(G=G, Q=Q)
+    pos = nx.get_node_attributes(G, "pos")
+    w = nx.get_edge_attributes(G, "weight")
+    nx.draw_networkx(G, pos=pos)
+    nx.draw_networkx_edge_labels(G, edge_labels=w, pos=pos)
+    plt.show()
 
     pos = nx.get_node_attributes(G=G, name="pos")
     df = pd.DataFrame.from_dict(pos)

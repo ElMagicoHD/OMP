@@ -43,6 +43,6 @@ class KdTree(object):
         middle_node.left = self.__build_tree(nodes_list=sorted_nodes.iloc[:, : sorted_nodes.shape[1] // 2],
                                              depth=depth + 1)
         # right part of sorted_nodes
-        middle_node.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, : sorted_nodes.shape[1] // 2],
+        middle_node.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, (sorted_nodes.shape[1] // 2) + 1:],
                                               depth=depth + 1)
         return middle_node
