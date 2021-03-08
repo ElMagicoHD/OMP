@@ -1,5 +1,6 @@
 import networkx as nx
 import convex_hull
+import pandas as pd
 
 
 def baseline_opm(Q, G):
@@ -44,11 +45,18 @@ def two_phase_online_convex_hull_based_pruning(G, Q):
             opt = q
 
     pos = nx.get_node_attributes(G=G, name='pos')
+    pos_df = pd.DataFrame(pos)
+    pos_hull = pos_df[H]
+    sorted_by_x = pos_hull.sort_values(by=0, axis=1)
+    sorted_by_y = pos_hull.sort_values(by=1, axis=1)
+    # MBR[x_min, x_max, y_min, y_max]
+    MBR = [sorted_by_x.iloc[:, 0][0], sorted_by_x.iloc[:, -1][0], sorted_by_y.iloc[:, 0][1], sorted_by_y.iloc[:, -1][1]]
 
     for v in G.nodes:
 
-        if not is_inside_of_convex_hull(hull=H, p=v, pos=pos):
-            continue
+        if pos_df[v][0] < MBR[0] or pos_df[v][1] > MBR[1] or MBR[2] > pos_df[v][1] or pos_df[v][1] > MBR[3]:
+            if not is_inside_of_convex_hull(hull=H, p=v, pos=pos):
+                continue
 
         cost = sod(G=G, v=v, Q=Q, min_cost=min_cost)
 
@@ -72,17 +80,18 @@ def is_inside_of_convex_hull(hull, p, pos):
     return False
 
 
-def greedy_algorithm(G,Q):
-
-    #compute center of gravity
+def greedy_algorithm(G, Q):
+    # compute center of gravity
     q_x, q_y = 0, 0
     pos = nx.get_node_attributes(G, "pos")
     for v in Q:
         q_x += pos[v][0]
         q_y += pos[v][1]
     size_of_q = len(Q)
-    q_x = q_x/size_of_q
-    q_y = q_y/size_of_q
-    #TODO: build k-d-tree and perform NN search!
+    q_x = q_x / size_of_q
+    q_y = q_y / size_of_q
+    # TODO: build k-d-tree and perform NN search!
 
     return None
+
+# def in_mbr(convex_hull, node)

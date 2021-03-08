@@ -28,7 +28,7 @@ class KdTree(object):
         self.root.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, (sorted_nodes.shape[1] // 2) + 1:],
                                             depth=depth + 1)
 
-    def __build_tree(self, nodes_list, depth=1):
+    def __build_tree(self, nodes_list, depth: int = 1) -> kdnode.KdNode:
         if nodes_list.shape[1] <= 0 or nodes_list.shape[0] <= 0:
             self.depth = depth
             return None
@@ -46,3 +46,15 @@ class KdTree(object):
         middle_node.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, (sorted_nodes.shape[1] // 2) + 1:],
                                               depth=depth + 1)
         return middle_node
+
+    def nearest_neighbor(self, node):
+        if self.root is None:
+            return None
+        if node is None:
+            return None
+        else:
+            return self._nearest_neighbor(node, depth=0)
+
+    def _nearest_neighbor(self, node, depth = 0):
+        splitting_axis = depth % 2
+

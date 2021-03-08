@@ -1,7 +1,7 @@
 # Optimal Meeting Point Graphs
 import networkx as nx
 import matplotlib.pyplot as plt
-# from convex_hull import two_phase_convex_hull
+from convex_hull import two_phase_convex_hull
 import yan_et_al as yan
 import pandas as pd
 import kdtree as kd
@@ -13,21 +13,21 @@ def calculate_opm():
     G = create_example_graph()
 
     Q = ['G', 'H', 'N']
-    # # H = two_phase_convex_hull(G,Q)
-    # # print(H)
-    # opm = yan.baseline_opm(Q=Q, G=G)
-    # print(opm)
-    # for q in Q:
-    #     path = nx.shortest_path(G, q, opm, weight='weight')
-    #     length = nx.shortest_path_length(G, q, opm, weight='weight')
-    #     print('Shortest path from {} to {} is: \n {} \n with length: {}'.format(q, opm, path, length))
-    # print(20 * '-')
-    # opm = yan.two_phase_online_convex_hull_based_pruning(G=G, Q=Q)
-    # for q in Q:
-    #     path = nx.shortest_path(G, q, opm, weight='weight')
-    #     length = nx.shortest_path_length(G, q, opm, weight='weight')
-    #     print('Shortest path from {} to {} is: \n {} \n with length: {}'.format(q, opm, path, length))
-    #
+    H = two_phase_convex_hull(G,Q)
+    print(H)
+    opm = yan.baseline_opm(Q=Q, G=G)
+    print(opm)
+    for q in Q:
+        path = nx.shortest_path(G, q, opm, weight='weight')
+        length = nx.shortest_path_length(G, q, opm, weight='weight')
+        print('Shortest path from {} to {} is: \n {} \n with length: {}'.format(q, opm, path, length))
+    print(20 * '-')
+    opm = yan.two_phase_online_convex_hull_based_pruning(G=G, Q=Q)
+    for q in Q:
+        path = nx.shortest_path(G, q, opm, weight='weight')
+        length = nx.shortest_path_length(G, q, opm, weight='weight')
+        print('Shortest path from {} to {} is: \n {} \n with length: {}'.format(q, opm, path, length))
+
     yan.greedy_algorithm(G=G, Q=Q)
     pos = nx.get_node_attributes(G, "pos")
     w = nx.get_edge_attributes(G, "weight")
@@ -40,6 +40,11 @@ def calculate_opm():
     tree = kd.KdTree()
     tree.build_tree(nodes_list=df)
     print(tree.root)
+    # z = {'Z':[3,4]}
+    # z = pd.DataFrame(z)
+    # nn = tree.nearest_neighbor(z)
+    # print(nn)
+
 
 if __name__ == "__main__":
     calculate_opm()
