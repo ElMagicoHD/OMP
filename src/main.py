@@ -40,10 +40,9 @@ def calculate_opm():
     tree = kd.KdTree()
     tree.build_tree(nodes_list=df)
     print(tree.root)
-    # z = {'Z':[3,4]}
-    # z = pd.DataFrame(z)
-    # nn = tree.nearest_neighbor(z)
-    # print(nn)
+    z = (5, 3)
+    nn = tree.nearest_neighbor(z)
+    print("nn is " + str(nn))
 
 
 if __name__ == "__main__":
