@@ -82,16 +82,14 @@ def is_inside_of_convex_hull(hull, p, pos):
 
 def greedy_algorithm(G, Q):
     # compute center of gravity
-    q_x, q_y = 0, 0
-    pos = nx.get_node_attributes(G, "pos")
-    for v in Q:
-        q_x += pos[v][0]
-        q_y += pos[v][1]
-    size_of_q = len(Q)
-    q_x = q_x / size_of_q
-    q_y = q_y / size_of_q
-    # TODO: build k-d-tree and perform NN search!
+    positions = pd.DataFrame.from_dict( nx.get_node_attributes(G, "pos") )[Q]
+    all_x_axes = positions.iloc[0]
+    all_y_axes = positions.iloc[1]
+    q_x, q_y = all_x_axes.mean(), all_y_axes.mean()
+
+
+
 
     return None
 
-# def in_mbr(convex_hull, node)
+

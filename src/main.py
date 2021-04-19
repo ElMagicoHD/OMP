@@ -30,6 +30,7 @@ def calculate_opm():
 
     yan.greedy_algorithm(G=G, Q=Q)
     pos = nx.get_node_attributes(G, "pos")
+    print(pos)
     w = nx.get_edge_attributes(G, "weight")
     nx.draw_networkx(G, pos=pos)
     nx.draw_networkx_edge_labels(G, edge_labels=w, pos=pos)
