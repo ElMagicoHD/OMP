@@ -4,7 +4,7 @@ import pandas as pd
 import kdtree as kd
 
 
-def baseline_opm(Q, G):
+def baseline_opm(G, Q):
     opt = None
     min_cost = float('inf')  # positive infinity
 
@@ -26,7 +26,7 @@ def baseline_opm(Q, G):
 def sod(G, v, Q, min_cost):
     sum_of_distance = 0
     for q in Q:
-        sum_of_distance += nx.shortest_path_length(G, v, q, weight='weight')
+        sum_of_distance += nx.shortest_path_length(G, v, q, weight="weight")
 
         if sum_of_distance > min_cost:
             return sum_of_distance

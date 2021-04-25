@@ -6,6 +6,7 @@ import yan_et_al as yan
 import pandas as pd
 import kdtree as kd
 import osmnx as ox
+from time import time
 
 from bspgraph import create_example_graph, create_grids
 
@@ -62,7 +63,17 @@ def calculate_opm():
     nx.set_edge_attributes(G, length, "weight")
 
     Q = ['244048691', '256347321']
-    opt = yan.greedy_algorithm(G, Q)
+    reps = 10
+    start = time()
+    for i in range(0, reps):
+        opt = yan.baseline_opm(G, Q)
+    end = time()
+    print(str(((end - start) / reps)) + " Sekunden im Durchschnitt")
+    start = time()
+    for i in range(0, reps):
+        opt = yan.greedy_algorithm(G, Q)
+    end = time()
+    print(str(((end-start)/reps)) + " Sekunden im Durchschnitt")
     route1 = nx.shortest_path(G, Q[0], opt)
     route2 = nx.shortest_path(G, Q[1], opt)
     #converst routes from string to int
