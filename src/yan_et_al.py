@@ -105,8 +105,8 @@ def greedy_algorithm(G, Q):
             if sod_min > current_sod:
                 min_node = n
                 sod_min = current_sod
-
-        if sod_min > sod_opt:
+    #subtle change from the pseudocode
+        if sod_min >= sod_opt:
             return opt
         else:
             opt = min_node
@@ -114,9 +114,6 @@ def greedy_algorithm(G, Q):
 
 def greedy_sod(G, v, Q):
     sum_of_distance = 0
-    #v_int = int(v)
-    l = nx.get_edge_attributes(G, name="length")
     for q in Q:
-        #q_int = int(q)
-        sum_of_distance += nx.shortest_path_length(G, q, v, weight="length")
+        sum_of_distance += nx.shortest_path_length(G, q, v, weight="weight")
     return sum_of_distance

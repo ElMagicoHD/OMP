@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-G = nx.read_graphml('../../data/Merano')
+G = nx.read_graphml('../../data/Merano.gxl')
 
 #get axis from all nodes
 x_axis = nx.get_node_attributes(G, 'x')

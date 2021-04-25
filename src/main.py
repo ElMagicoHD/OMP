@@ -5,6 +5,7 @@ from convex_hull import two_phase_convex_hull
 import yan_et_al as yan
 import pandas as pd
 import kdtree as kd
+import osmnx as ox
 
 from bspgraph import create_example_graph, create_grids
 
@@ -45,7 +46,7 @@ def calculate_opm():
     # nn = tree.nearest_neighbor(z)
     # print("nn is " + str(nn))
     
-    G = nx.read_graphml(path="../data/Merano")
+    G = nx.read_graphml(path="../data/Merano.gxl")
 
     # get axis from all nodes
     x_axis = nx.get_node_attributes(G, 'x')
@@ -55,9 +56,26 @@ def calculate_opm():
     for k in x_axis.keys():
         pos[k] = tuple(float(d[k]) for d in ds)
     nx.set_node_attributes(G, pos, "pos")
-    Q = ['244048691', '244049113']
+    #add edges attribute with float instead of string
+    len = nx.get_edge_attributes(G, "length")
+    length = {k: float(v) for k, v in len.items()}
+    nx.set_edge_attributes(G, length, "weight")
+
+    Q = ['244048691', '256347321']
     opt = yan.greedy_algorithm(G, Q)
-    print(opt)
+    route1 = nx.shortest_path(G, Q[0], opt)
+    route2 = nx.shortest_path(G, Q[1], opt)
+    #converst routes from string to int
+    route1 = [int(k) for k in route1]
+    route2 = [int(k) for k in route2]
+
+    Gx = ox.load_graphml(filepath="../data/Merano.gxl")
+    ox.plot_graph(Gx)
+    ox.plot_graph_routes(Gx, [route1, route2], route_colors=['red', 'yellow'])
+
+    #print(opt)
+    #nx.draw(G, pos=pos)
+    #plt.show()
     return
 
 
