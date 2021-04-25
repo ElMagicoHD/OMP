@@ -1,6 +1,7 @@
 import networkx as nx
 import convex_hull
 import pandas as pd
+import kdtree as kd
 
 
 def baseline_opm(Q, G):
@@ -82,14 +83,40 @@ def is_inside_of_convex_hull(hull, p, pos):
 
 def greedy_algorithm(G, Q):
     # compute center of gravity
-    positions = pd.DataFrame.from_dict( nx.get_node_attributes(G, "pos") )[Q]
-    all_x_axes = positions.iloc[0]
-    all_y_axes = positions.iloc[1]
-    q_x, q_y = all_x_axes.mean(), all_y_axes.mean()
+    nodes_with_positions = pd.DataFrame.from_dict(nx.get_node_attributes(G, "pos"))
+    positions_of_Q = nodes_with_positions[Q]
+    all_x_axes = positions_of_Q.iloc[0]
+    all_y_axes = positions_of_Q.iloc[1]
+    gravity = (all_x_axes.mean(), all_y_axes.mean())
+    # build kdtree
+    tree = kd.KdTree()
+    tree.build_tree(nodes_list=nodes_with_positions)
+
+    opt = tree.nearest_neighbor(gravity).name
+
+    while True:
+
+        sod_opt = greedy_sod(G, opt, Q)
+        neighbors = G.neighbors(opt)
+        sod_min = float('inf')
+        min_node = None
+        for n in neighbors:
+            current_sod = greedy_sod(G, n, Q)
+            if sod_min > current_sod:
+                min_node = n
+                sod_min = current_sod
+
+        if sod_min > sod_opt:
+            return opt
+        else:
+            opt = min_node
 
 
-
-
-    return None
-
-
+def greedy_sod(G, v, Q):
+    sum_of_distance = 0
+    #v_int = int(v)
+    l = nx.get_edge_attributes(G, name="length")
+    for q in Q:
+        #q_int = int(q)
+        sum_of_distance += nx.shortest_path_length(G, q, v, weight="length")
+    return sum_of_distance
