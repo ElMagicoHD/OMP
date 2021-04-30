@@ -105,7 +105,7 @@ def greedy_algorithm(G, Q):
             if sod_min > current_sod:
                 min_node = n
                 sod_min = current_sod
-    #subtle change from the pseudocode
+        #subtle change from the pseudocode
         if sod_min >= sod_opt:
             return opt
         else:
