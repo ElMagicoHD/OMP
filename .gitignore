@@ -27,6 +27,7 @@ coverage.xml
 __pycache__/
 *.py[cod]
 *$py.class
+.DS_Store
 
 # C extensions
 *.so
@@ -49,7 +50,9 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+/src/cache
+
 
 #too big data
 data/grid_1km_surf.gpkg
-data/
+data/Berlin.gxl
