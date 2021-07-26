@@ -34,20 +34,21 @@ class KdTree(object):
 
     def _build_tree(self, nodes_list: pd.DataFrame, depth: int = 0) -> None:
         if nodes_list.shape[1] <= 0 or nodes_list.shape[0] <= 0:
+            self.depth = depth
             return None
         # sort nodes_list alternating by x and y axis
         splitting_axis = depth % 2
         sorted_nodes = nodes_list.sort_values(by=splitting_axis, axis=1)
         # middle of sorted list
-        middle = sorted_nodes.iloc[:, sorted_nodes.shape[1] // 2]
-
+        median = sorted_nodes.shape[1] // 2
+        middle = sorted_nodes.iloc[:, median]
         self.root = kdnode.KdNode(name=middle.name, x_coord=middle[0], y_coord=middle[1])
         self.root.axis = splitting_axis
         # left part of sorted_nodes
-        self.root.left = self.__build_tree(nodes_list=sorted_nodes.iloc[:, : sorted_nodes.shape[1] // 2],
+        self.root.left = self.__build_tree(nodes_list=sorted_nodes.iloc[:, : median],
                                            depth=depth + 1)
         # right part of sorted_nodes
-        self.root.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, (sorted_nodes.shape[1] // 2) + 1:],
+        self.root.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, median + 1:],
                                             depth=depth + 1)
 
     def __build_tree(self, nodes_list, depth: int = 1) -> kdnode.KdNode:
@@ -57,18 +58,18 @@ class KdTree(object):
 
         splitting_axis = depth % 2
         sorted_nodes = nodes_list.sort_values(by=splitting_axis, axis=1)
+        #median_value = nodes_list.median(axis=1)[splitting_axis] could be used to improve build time further
 
         # middle of sorted list
-        middle = sorted_nodes.iloc[:, sorted_nodes.shape[1] // 2]
+        median = sorted_nodes.shape[1] // 2
+        middle = sorted_nodes.iloc[:, median]
 
         middle_node = kdnode.KdNode(name=middle.name, x_coord=middle[0], y_coord=middle[1])
         middle_node.axis = splitting_axis
         # left part of sorted_nodes
-        middle_node.left = self.__build_tree(nodes_list=sorted_nodes.iloc[:, : sorted_nodes.shape[1] // 2],
-                                             depth=depth + 1)
+        middle_node.left = self.__build_tree(nodes_list=sorted_nodes.iloc[:, : median], depth=depth + 1)
         # right part of sorted_nodes
-        middle_node.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, (sorted_nodes.shape[1] // 2) + 1:],
-                                              depth=depth + 1)
+        middle_node.right = self.__build_tree(nodes_list=sorted_nodes.iloc[:, median + 1:], depth=depth + 1)
         return middle_node
 
     def nearest_neighbor(self, pos):
