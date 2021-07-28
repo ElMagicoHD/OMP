@@ -4,16 +4,25 @@ import pandas as pd
 import kdtree as kd
 
 
+# Euclidean heuristic for A*
+def heuristic(u, v):
+    dist = (Graph.nodes[v]["pos"][0] - Graph.nodes[u]["pos"][0]) ** 2 + (
+            Graph.nodes[v]["pos"][1] - Graph.nodes[u]["pos"][1]) ** 2
+    dist **= 0.5
+    return dist
+
+
 def baseline_opm(G, Q):
     opt = None
     min_cost = float('inf')  # positive infinity
-
-    for q in Q:
-        cost = sod(G=G, v=q, Q=Q, min_cost=min_cost)
-        if cost < min_cost:
-            min_cost = cost
-            opt = q
-
+    # not in use since our Q is only Q c= V
+    # for q in Q:
+    #     cost = sod(G=G, v=q, Q=Q, min_cost=min_cost)
+    #     if cost < min_cost:
+    #         min_cost = cost
+    #         opt = q
+    global Graph
+    Graph = G
     for v in G.nodes:
         cost = sod(G=G, v=v, Q=Q, min_cost=min_cost)
 
@@ -26,7 +35,7 @@ def baseline_opm(G, Q):
 def sod(G, v, Q, min_cost):
     sum_of_distance = 0
     for q in Q:
-        sum_of_distance += nx.shortest_path_length(G, v, q, weight="weight")
+        sum_of_distance += nx.astar_path_length(G, v, q, heuristic=heuristic, weight="weight")
 
         if sum_of_distance > min_cost:
             return sum_of_distance
@@ -91,7 +100,8 @@ def greedy_algorithm(G, Q):
     # build kdtree
     tree = kd.KdTree()
     tree.build_tree(nodes_list=nodes_with_positions)
-
+    global Graph
+    Graph = G
     opt = tree.nearest_neighbor(gravity).name
 
     while True:
@@ -105,7 +115,7 @@ def greedy_algorithm(G, Q):
             if sod_min > current_sod:
                 min_node = n
                 sod_min = current_sod
-        #subtle change from the pseudocode
+        # subtle change from the pseudocode
         if sod_min >= sod_opt:
             return opt
         else:
@@ -115,5 +125,5 @@ def greedy_algorithm(G, Q):
 def greedy_sod(G, v, Q):
     sum_of_distance = 0
     for q in Q:
-        sum_of_distance += nx.shortest_path_length(G, q, v, weight="weight")
+        sum_of_distance += nx.astar_path_length(G, q, v, heuristic=heuristic, weight="weight")
     return sum_of_distance
