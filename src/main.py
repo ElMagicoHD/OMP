@@ -1,9 +1,9 @@
 # Optimal Meeting Point Graphs
 import networkx as nx
 import yan_et_al as yan
-import osmnx as ox
+#import osmnx as ox
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 # benchmarking imports
 from time import time
 import csv
@@ -64,26 +64,39 @@ def grid_benchmark(vertices_per_axis, size_of_Q=5):
         d["pos"] = v
 
     for (u, v, d) in G.edges(data=True):
+        
         dist = (G.nodes[v]["pos"][0] - G.nodes[u]["pos"][0]) ** 2 + (
                 G.nodes[v]["pos"][1] - G.nodes[u]["pos"][1]) ** 2
         dist = dist ** 0.5
         d["weight"] = dist
 
     for i in range(1, 51):
-        print("Iteration " + str(i) + "of grid bench with " + str(vertices_per_axis) + "x" + str(vertices_per_axis) + "nodes")
+        print("Iteration " + str(i) + " of grid bench with " + str(vertices_per_axis) + "x" + str(vertices_per_axis) + " nodes")
         Q = random.sample(G.nodes(), size_of_Q)
         start = time()
-        yan.baseline_opm(G=G, Q=Q)
+        base, cost_b = yan.baseline_opm(G=G, Q=Q)
         duration_baseline = time() - start
         start = time()
-        yan.greedy_algorithm(G=G, Q=Q)
+        gred, cost_g = yan.greedy_algorithm(G=G, Q=Q)
         duration_greedy = time() - start
-        with open("../benchmarks/benchmarking_grid.txt", mode='a') as f:
-            writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(
-                [str(i), str(vertices_per_axis * vertices_per_axis), str(nx.number_of_edges(G)), str(size_of_Q),
-                 str(nx.density(G)), str(duration_baseline), str(duration_greedy)])
-        with open("../benchmarks/benchmarking_edges_per_node_grid.txt") as f:
+
+        if gred== base:
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_grid.txt", mode='a') as f:
+                writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                writer.writerow(
+                    [str(i), str(vertices_per_axis * vertices_per_axis), str(nx.number_of_edges(G)), str(size_of_Q),
+                    str(nx.density(G)), str(duration_baseline), str(duration_greedy), "True", "0"])
+        else:
+            percentual_difference = cost_g - cost_b
+            percentual_difference /= cost_b
+            percentual_difference *= 100
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_grid.txt", mode='a') as f:
+                writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                writer.writerow(
+                    [str(i), str(vertices_per_axis * vertices_per_axis), str(nx.number_of_edges(G)), str(size_of_Q),
+                    str(nx.density(G)), str(duration_baseline), str(duration_greedy), "False", str(percentual_difference)])
+ 
+        with open("/home/elmagico/OPM/benchmarks/benchmarking_edges_per_node_grid.txt") as f:
             writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             writer.writerow(list(G.degree(G.nodes())))
 
@@ -94,7 +107,7 @@ def random_benchmark(vertices, density, size_of_Q=5):
     number_of_edges *= (vertices - 1)
 
     for i in range(1, 51):
-        print("Iteration " + str(i) + "of random bench with " + str(vertices) + "nodes and density of" + str(density))
+        print("Iteration " + str(i) + " of random bench with " + str(vertices) + " nodes and density of " + str(density))
         # For not dense is gnm faster, otherwise dense_gnm
         if density < 0.6:
             G = nx.gnm_random_graph(vertices, number_of_edges)
@@ -106,29 +119,42 @@ def random_benchmark(vertices, density, size_of_Q=5):
             # G should be connected, otherwise inf-loop
             while not nx.is_connected(G):
                 G = nx.dense_gnm_random_graph(vertices, number_of_edges)
-
+        
         nx.set_node_attributes(G, nx.random_layout(G), name="pos")
         Q = random.sample(G.nodes(), size_of_Q)
+        # for (_,d) in G.nodes(data=True):
+        #     d["pos"] = (random.random(), random.random())
         # set weights, euclidean space
         for (u, v, d) in G.edges(data=True):
+            
             dist = (G.nodes[v]["pos"][0] - G.nodes[u]["pos"][0]) ** 2 + (
                     G.nodes[v]["pos"][1] - G.nodes[u]["pos"][1]) ** 2
             dist **= 0.5
             d["weight"] = dist
         print("baseline go")
         start = time()
-        yan.baseline_opm(G=G, Q=Q)
+        base, cost_b = yan.baseline_opm(G=G, Q=Q)
         duration_baseline = time() - start
         print("greedy go")
         start = time()
-        yan.greedy_algorithm(G=G, Q=Q)
+        gred, cost_g = yan.greedy_algorithm(G=G, Q=Q)
         duration_greedy = time() - start
-        with open("../benchmarks/benchmarking_random.txt", mode='a') as f:
-            writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(
-                [str(i), str(vertices), str(number_of_edges), str(size_of_Q),
-                 str(density), str(duration_baseline), str(duration_greedy)])
-        with open("../benchmarks/benchmarking_edges_per_node_random.txt", mode='a') as f:
+        if base == gred:
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_random.txt", mode='a') as f:
+                writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                writer.writerow(
+                    [str(i), str(vertices), str(number_of_edges), str(size_of_Q),
+                    str(density), str(duration_baseline), str(duration_greedy), "True", "0"])
+        else:
+            percentual_difference = cost_g - cost_b
+            percentual_difference /= cost_b
+            percentual_difference *= 100
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_random.txt", mode='a') as f:
+                writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                writer.writerow(
+                    [str(i), str(vertices), str(number_of_edges), str(size_of_Q),
+                    str(density), str(duration_baseline), str(duration_greedy), "False", str(percentual_difference)])
+        with open("/home/elmagico/OPM/benchmarks/benchmarking_edges_per_node_random.txt", mode='a') as f:
             writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             writer.writerow(list(G.degree(G.nodes())))
 
@@ -138,6 +164,12 @@ def benchmarking():
 
     for v in vertices:
         random_benchmark(vertices=v, density=0.2)
+    for v in vertices:
+        random_benchmark(vertices=v, density=0.5)
+    for v in vertices:
+        random_benchmark(vertices=v, density=0.8)
+    for v in vertices:
+        grid_benchmark(vertices_per_axis=v)
 
     return
 

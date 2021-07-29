@@ -1,1 +1,1 @@
-iteration,veritces_per_axis,number_of_edges,size_of_Q,density,duration_baseline,duration_greedy
+iteration,veritces_per_axis,number_of_edges,size_of_Q,density,duration_baseline,duration_greedy,same_omp,diff_to_base

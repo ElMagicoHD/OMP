@@ -29,7 +29,7 @@ def baseline_opm(G, Q):
         if cost < min_cost:
             min_cost = cost
             opt = v
-    return opt
+    return opt, min_cost
 
 
 def sod(G, v, Q, min_cost):
@@ -117,9 +117,10 @@ def greedy_algorithm(G, Q):
                 sod_min = current_sod
         # subtle change from the pseudocode
         if sod_min >= sod_opt:
-            return opt
+            return opt, sod_opt
         else:
             opt = min_node
+            sod_opt = sod_min
 
 
 def greedy_sod(G, v, Q):
