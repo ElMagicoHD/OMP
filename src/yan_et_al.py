@@ -103,13 +103,14 @@ def greedy_algorithm(G, Q):
     global Graph
     Graph = G
     opt = tree.nearest_neighbor(gravity).name
+    sod_opt = greedy_sod(G, opt, Q)
 
     while True:
 
-        sod_opt = greedy_sod(G, opt, Q)
         neighbors = G.neighbors(opt)
         min_node = None
-        sod_min = sod_opt
+        sod_min = float("inf")
+        # arg min like in line 6 of the pseudocode from yan et al.
         for n in neighbors:
             current_sod = greedy_sod(G, n, Q)
             if sod_min > current_sod:

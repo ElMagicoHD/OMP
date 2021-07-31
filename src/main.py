@@ -80,7 +80,7 @@ def grid_benchmark(vertices_per_axis, size_of_Q=5):
         gred, cost_g = yan.greedy_algorithm(G=G, Q=Q)
         duration_greedy = time() - start
 
-        if gred== base:
+        if gred == base:
             with open("/home/elmagico/OPM/benchmarks/benchmarking_grid.txt", mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
