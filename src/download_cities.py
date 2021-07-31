@@ -10,25 +10,19 @@ def download_city_road_network(filepath, city):
     if not city:
         raise ValueError("You should state which city you want to download")
     # load graph from osm database
+    ox.config(timeout=10000)
     G = ox.graph_from_place(query=city, network_type="drive")
     # store graph as graphml file to interpret it later with networkx
     ox.save_graphml(G=G, filepath=filepath)
 
     return
 
-def plot_tokyo():
-    G = ox.graph_from_place("Tokyo, Japan", network_type="drive")
-    ox.plot_graph(G)
-    plt.show()
-
-
 if __name__ == "__main__":
-    # download_city_road_network(, "Berlin, Berlin, Germany")
-    # download_city_road_network(, "Merano, Bolzano, Italy") # my hometown
-    # download_city_road_network(, "Vienna, Austria")
-    # download_city_road_network(, "New York, New York, USA")
-    # download_city_road_network(, "") #which other city could be interesting?
-    #plot_tokyo()
+    # download_city_road_network(filepath="/home/elmagico/OPM/data/berlin.gxl", city="Berlin, Germany")
+    # download_city_road_network(filepath="/home/elmagico/OPM/data/meran.gxl", city="Merano, Bolzano, Italy") # my hometown
+    # download_city_road_network(filepath="/home/elmagico/OPM/data/vienna.gxl", city="Vienna, Austria")
+    # download_city_road_network(filepath="/home/elmagico/OPM/data/nyc.gxl", city="New York, New York, USA")
+    download_city_road_network(filepath="/home/elmagico/OPM/data/tokyo.gxl", city="Tokyo, Japan") # Tokys 
 
 
 

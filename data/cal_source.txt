@@ -1,2 +1,0 @@
-Real Datasets for Spatial Databases: Road Networks and Points of Interest
-https://www.cs.utah.edu/~lifeifei/SpatialDataset.htm

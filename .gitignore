@@ -56,3 +56,4 @@ wheels/
 #too big data
 data/grid_1km_surf.gpkg
 data/Berlin.gxl
+data/*
