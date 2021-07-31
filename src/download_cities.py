@@ -9,8 +9,9 @@ def download_city_road_network(filepath, city):
         raise ValueError("no filepath")
     if not city:
         raise ValueError("You should state which city you want to download")
-    # load graph from osm database
+    # adjust timeout because tokyo is a huge file
     ox.config(timeout=10000)
+    # load graph from osm database
     G = ox.graph_from_place(query=city, network_type="drive")
     # store graph as graphml file to interpret it later with networkx
     ox.save_graphml(G=G, filepath=filepath)
