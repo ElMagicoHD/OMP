@@ -19,10 +19,10 @@ def download_city_road_network(filepath, city):
     return
 
 if __name__ == "__main__":
-    # download_city_road_network(filepath="/home/elmagico/OPM/data/berlin.gxl", city="Berlin, Germany")
-    # download_city_road_network(filepath="/home/elmagico/OPM/data/meran.gxl", city="Merano, Bolzano, Italy") # my hometown
-    # download_city_road_network(filepath="/home/elmagico/OPM/data/vienna.gxl", city="Vienna, Austria")
-    # download_city_road_network(filepath="/home/elmagico/OPM/data/nyc.gxl", city="New York, New York, USA")
+    download_city_road_network(filepath="/home/elmagico/OPM/data/berlin.gxl", city="Berlin, Germany")
+    download_city_road_network(filepath="/home/elmagico/OPM/data/meran.gxl", city="Merano, Bolzano, Italy") # my hometown
+    download_city_road_network(filepath="/home/elmagico/OPM/data/vienna.gxl", city="Vienna, Austria")
+    download_city_road_network(filepath="/home/elmagico/OPM/data/nyc.gxl", city="New York, New York, USA")
     download_city_road_network(filepath="/home/elmagico/OPM/data/tokyo.gxl", city="Tokyo, Japan") # Tokys 
 
 

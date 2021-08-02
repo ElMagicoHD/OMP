@@ -1,0 +1,3 @@
+iteration,veritces,number_of_edges,size_of_Q,density,duration_baseline,duration_greedy,same_omp,diff_to_base
+1,10000,39996000.0,5,0.8,7653.106663942337,19428.646260738373,True,0
+2,10000,39996000.0,5,0.8,9906.231979370117,28572.553201913834,True,0
