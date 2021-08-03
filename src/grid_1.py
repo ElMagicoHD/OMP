@@ -29,7 +29,7 @@ def grid_benchmark(vertices_per_axis, size_of_Q=5):
         duration_greedy = time() - start
 
         if gred == base:
-            with open("/home/elmagico/OPM/benchmarks/benchmarking_grid_1.txt", mode='a') as f:
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_grid.txt", mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
                     [str(i), str(vertices_per_axis * vertices_per_axis), str(nx.number_of_edges(G)), str(size_of_Q),
@@ -38,7 +38,7 @@ def grid_benchmark(vertices_per_axis, size_of_Q=5):
             percentual_difference = cost_g - cost_b
             percentual_difference /= cost_b
             percentual_difference *= 100
-            with open("/home/elmagico/OPM/benchmarks/benchmarking_grid_1.txt", mode='a') as f:
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_grid.txt", mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
                     [str(i), str(vertices_per_axis * vertices_per_axis), str(nx.number_of_edges(G)), str(size_of_Q),

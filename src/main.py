@@ -140,7 +140,7 @@ def random_benchmark(vertices, density, size_of_Q=5):
         gred, cost_g = yan.greedy_algorithm(G=G, Q=Q)
         duration_greedy = time() - start
         if base == gred:
-            with open("/home/elmagico/OPM/benchmarks/benchmarking_random.txt", mode='a') as f:
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_random_02.txt", mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
                     [str(i), str(vertices), str(number_of_edges), str(size_of_Q),
@@ -149,7 +149,7 @@ def random_benchmark(vertices, density, size_of_Q=5):
             percentual_difference = cost_g - cost_b
             percentual_difference /= cost_b
             percentual_difference *= 100
-            with open("/home/elmagico/OPM/benchmarks/benchmarking_random.txt", mode='a') as f:
+            with open("/home/elmagico/OPM/benchmarks/benchmarking_random_02.txt", mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
                     [str(i), str(vertices), str(number_of_edges), str(size_of_Q),

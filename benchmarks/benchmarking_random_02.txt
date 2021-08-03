@@ -1,4 +1,4 @@
-iteration,veritces,number_of_edges,size_of_Q,density,duration_baseline,duration_greedy,same_omp,diff_to_base
+iteration,vertices,number_of_edges,size_of_Q,density,duration_baseline,duration_greedy,same_omp,diff_to_base
 1,100,990.0,5,0.2,0.2515437602996826,0.32306480407714844,True,0
 2,100,990.0,5,0.2,0.17685174942016602,0.28537869453430176,True,0
 3,100,990.0,5,0.2,0.23646926879882812,0.19015264511108398,True,0
