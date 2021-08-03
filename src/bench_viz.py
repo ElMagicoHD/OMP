@@ -4,13 +4,13 @@ import seaborn as sns
 import os
 
 
-def load_csv_to_df(type_of_graph: str):
+def plotting(type_of_graph: str):
     if type_of_graph == "grid":
 
         df = pd.DataFrame(pd.read_csv("../benchmarks/benchmarking_grid.txt"))
 
-        dfb = df[["vertices_per_axis", "number_of_edges", "size_of_Q", "density", "duration_baseline"]]
-        dfg = df[["vertices_per_axis", "number_of_edges", "size_of_Q", "density", "duration_greedy"]]
+        dfb = df[["vertices", "number_of_edges", "size_of_Q", "density", "duration_baseline"]]
+        dfg = df[["vertices", "number_of_edges", "size_of_Q", "density", "duration_greedy"]]
         title = "Gittergraph"
 
     elif type_of_graph == "random_02":
@@ -59,5 +59,5 @@ def load_csv_to_df(type_of_graph: str):
 
 
 if __name__ == "__main__":
-    load_csv_to_df(type_of_graph="random_02")
+    plotting(type_of_graph="random_05")
 
