@@ -49,5 +49,4 @@ def grid_benchmark(vertices_per_axis, size_of_Q=5):
             writer.writerow(list(G.degree(G.nodes())))
 
 if __name__ == "__main__":
-    grid_benchmark(vertices_per_axis=25)
-    grid_benchmark(vertices_per_axis=100)
+    grid_benchmark(vertices_per_axis=75)
