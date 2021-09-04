@@ -67,7 +67,7 @@ def berlin(iterations=50):
             start = time()
             yan.greedy_algorithm(G=G, Q=Q)
             duration_greedy = time() - start
-            file = "/home/elmagico/OPM/benchmarks/benchmarking_berlin.txt"
+            file = "/home/elmagico/OPM/benchmarks/benchmarking_greedy_berlin.txt"
             with open(file, mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
