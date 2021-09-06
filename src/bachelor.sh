@@ -3,4 +3,4 @@
 #$ -l mem_free=1000M
 
 
-~/miniconda3/envs/ba/bin/python3.9 ~/OPM/src/main.py
+~/miniconda3/envs/ba_with_osmnx/bin/python3.9 ~/OPM/src/bench_viz.py

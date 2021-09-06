@@ -142,10 +142,11 @@ def plot_city(name="meran"):
     plt.show()
 
 def streetnetwork(name="meran"):
-
-    Gx = ox.load_graphml(filepath="../data/" + name + ".gxl")
-    fig, ax = ox.plot.plot_graph(Gx)
-    fig.savefig("../images/" + name + "_streetnetwork.png")
+    fname = "/home/elmagico/OPM/data/meran.gxl"
+    Gx = ox.load_graphml(filepath=fname)
+    # clist = ox.plot.get_colors(n=2, cmap="plasma", return_hex=True)
+    fig, ax = ox.plot.plot_graph(Gx, bgcolor="white", node_color="black", figsize=[8,8] )
+    fig.savefig("/home/elmagico/OPM/images/" + name + "_streetnetwork.png") 
 
 
 if __name__ == "__main__":
