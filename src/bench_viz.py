@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import osmnx as ox
 import numpy as np
 import os
 
@@ -116,10 +117,41 @@ def difference_greedy(with_normal_greedy=True):
     plt.show()
     return
 
+def plot_city(name="meran"):
+
+    df = pd.DataFrame(pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_" + name + ".txt"))
+    dfb = df[["size_of_Q", "duration_baseline"]]
+    dfg = df[["size_of_Q", "duration_greedy"]]
+    dfb = dfb.rename(columns={"duration_baseline": "duration"})
+    dfg = dfg.rename(columns={"duration_greedy": "duration"})
+    dfb["Algorithm"] = "Baseline"
+    dfg["Algorithm"] = "Greedy"
+    df = pd.concat([dfb, dfg])
+    sns.set_context(context="talk")
+    g = sns.lineplot(
+        data=df, legend=True,
+        x="size_of_Q", y="duration",
+        hue="Algorithm",
+        ci="sd"
+    )
+    g.set(yscale="linear",
+          xlabel="|Q|", ylabel="Dauer in Sekunden"
+          )
+    plt.legend(loc="upper left")
+    g.figure.savefig("../images/meran_q.png", bbox_inches="tight")
+    plt.show()
+
+def streetnetwork(name="meran"):
+
+    Gx = ox.load_graphml(filepath="../data/" + name + ".gxl")
+    fig, ax = ox.plot.plot_graph(Gx)
+    fig.savefig("../images/" + name + "_streetnetwork.png")
 
 
 if __name__ == "__main__":
     # duration_plotting(type_of_graph="grid")
     # difference_greedy()
-    difference_plotting(type_of_graph="random_02")
+    #difference_plotting(type_of_graph="random_02")
+    # plot_city()
+    streetnetwork()
 
