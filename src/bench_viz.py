@@ -142,7 +142,7 @@ def plot_city(name="meran"):
     plt.show()
 
 def streetnetwork(name="meran"):
-    fname = "/home/elmagico/OPM/data/meran.gxl"
+    fname = "/home/elmagico/OPM/data/"+ name + ".gxl"
     Gx = ox.load_graphml(filepath=fname)
     # clist = ox.plot.get_colors(n=2, cmap="plasma", return_hex=True)
     fig, ax = ox.plot.plot_graph(Gx, bgcolor="white", node_color="black", figsize=[8,8] )
@@ -154,5 +154,8 @@ if __name__ == "__main__":
     # difference_greedy()
     #difference_plotting(type_of_graph="random_02")
     # plot_city()
-    streetnetwork()
+    streetnetwork("berlin")
+    streetnetwork("nyc")
+    streetnetwork("vienna")
+    streetnetwork("tokyo")
 
