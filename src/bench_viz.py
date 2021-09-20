@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import osmnx as ox
 import pandas as pd
 import seaborn as sns
 
@@ -144,6 +143,8 @@ def plot_city(name="meran"):
         df = pd.DataFrame(pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_" + name + ".txt"))
         dfb = df[["size_of_Q", "duration_baseline"]]
         dfg = df[["size_of_Q", "duration_greedy"]]
+        test = dfb[dfb["size_of_Q"] == 20]
+        avg = test["duration_baseline"].mean()
         dfg2 = pd.DataFrame(pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_greedy_" + name + ".txt"))[
             ["size_of_Q", "duration_greedy"]]
         dfg = pd.concat([dfg, dfg2])
@@ -167,19 +168,39 @@ def plot_city(name="meran"):
         g.figure.savefig("../images/" + name + "_q_min.png", bbox_inches="tight")
         plt.show()
 
+
 def streetnetwork(name="meran"):
-    fname = "/home/elmagico/OPM/data/" + name + ".gxl"
-    Gx = ox.load_graphml(filepath=fname)
-    # clist = ox.plot.get_colors(n=2, cmap="plasma", return_hex=True)
-    fig, ax = ox.plot.plot_graph(Gx, bgcolor="white", node_color="black", figsize=[8, 8])
-    fig.savefig("/home/elmagico/OPM/images/" + name + "_streetnetwork.png")
+    # fname = "/home/elmagico/OPM/data/" + name + ".gxl"
+    # Gx = ox.load_graphml(filepath=fname)
+    # # clist = ox.plot.get_colors(n=2, cmap="plasma", return_hex=True)
+    # fig, ax = ox.plot.plot_graph(Gx, bgcolor="white", node_color="black", figsize=[8, 8])
+    # fig.savefig("/home/elmagico/OPM/images/" + name + "_streetnetwork.png")
+    meran = ["meran", 0, 138, 36, 495, 63, 5]
+    nyc = ["nyc", 0, 3766, 347, 26354, 24216, 601, 57, 3, 1]
+    vienna = ["vienna", 0, 1926, 483, 9589, 3888, 150, 16, 1]
+    tokyo = ["tokyo", 0, 33057, 1207, 187071, 50343, 1042, 118, 14]
+    berlin = ["berlin", 0, 3308, 425, 16716, 7227, 178, 8]
+    cities = [meran, nyc, vienna, tokyo, berlin]
+
+    sns.set_context(context="talk")
+    for city in cities:
+        name = city[0]
+        g = sns.barplot(
+            x=list(range(1, len(city[1:]))),
+            y=city[2:]
+        )
+        g.set(xlabel="Knotengrad pro Knoten",
+              ylabel="Absolute Häufigkeit")
+        # g.set_xticks(list(range(1, len(city) - 1)))
+        # ax.set_xtickslabels(list(range(len(city) - 2)))
+        g.figure.savefig("../images/" + name + "_distribution_better.png", bbox_inches="tight")
 
 
 if __name__ == "__main__":
     # duration_plotting(type_of_graph="grid")
     # difference_greedy()
     # difference_plotting(type_of_graph="random_02")
-    plot_city("")
+    plot_city("vienna")
     # streetnetwork("berlin")
     # streetnetwork("nyc")
     # streetnetwork("vienna")
