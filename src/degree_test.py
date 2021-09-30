@@ -46,15 +46,11 @@ def degree_bench(deg: int = 3, size_of_Q: int = 5) -> None:
                     [str(i), str(5000), str(G.number_of_edges()), str(size_of_Q),
                      str(nx.density(G)), str(duration_baseline), str(duration_greedy), "False",
                      str(percentual_difference)])
-        with open("/home/elmagico/OPM/benchmarks/benchmarking_edges_per_node" + str(deg) + "regular.txt",
-                  mode='a') as f:
-            writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(nx.degree_histogram(G))
+        if i < 5:
+            print("degree is: " + str(deg) + ". Histogram is: " + str(nx.degree_histogram(G)))
+
 
 
 if __name__ == "__main__":
-    degree_bench(deg=3)
-    degree_bench(deg=4)
     degree_bench(deg=5)
-    degree_bench(deg=50)
-    degree_bench(deg=100)
+    degree_bench(deg=20)

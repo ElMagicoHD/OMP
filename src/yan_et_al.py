@@ -12,7 +12,7 @@ def heuristic(u, v):
     return dist
 
 
-def baseline_opm(G, Q):
+def baseline_omp(G, Q):
     opt = None
     min_cost = float('inf')  # positive infinity
     # not in use since our Q is only Q c= V
