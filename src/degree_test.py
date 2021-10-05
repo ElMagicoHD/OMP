@@ -52,5 +52,7 @@ def degree_bench(deg: int = 3, size_of_Q: int = 5) -> None:
 
 
 if __name__ == "__main__":
-    degree_bench(deg=5)
-    degree_bench(deg=20)
+    ks = [3,4,5,10,20]
+    for k in ks:
+        degree_bench(deg=k)
+    

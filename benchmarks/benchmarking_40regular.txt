@@ -1,4 +1,4 @@
-iteration, number_of_nodes, number_of_edges, size_of_q, density, duration_baseline, duration_greedy, same_omp, difference
+iteration,number_of_nodes,number_of_edges,size_of_q,density,duration_baseline,duration_greedy,same_omp,difference
 1,5000,100000,5,0.008001600320064013,349.72615337371826,12.283435583114624,False,6.587337728594401
 2,5000,100000,5,0.008001600320064013,417.46329712867737,18.06984543800354,True,0
 3,5000,100000,5,0.008001600320064013,333.002552986145,14.255184888839722,True,0
