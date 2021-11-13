@@ -2,6 +2,18 @@ import uuid
 
 
 class KdNode(object):
+    """
+    This is a class to represent nodes in a k-d-Tree.
+
+    Attributes:
+        right (KdNode): right child
+        left (KdNode): left child
+        pos (tuple): (x coordinate, y coordinate)
+        name (String or numpy.int64): name
+        id (uuid.uuid4): unique id
+        axis (int): axis on which the subnodes will be divided
+
+    """
 
     def __init__(self, name, x_coord, y_coord):
         self.right = None

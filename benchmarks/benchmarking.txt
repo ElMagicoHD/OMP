@@ -1,1 +1,0 @@
-veritces,number_of_edged,size_of_Q,density,duration_baseline,duration_greedy
