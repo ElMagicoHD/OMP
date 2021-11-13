@@ -9,8 +9,7 @@ import random
 
 
 def meran(iterations=50):
-
-    number_of_q = [2,5,10,20,50]
+    number_of_q = [2, 5, 10, 20, 50]
 
     # Setting up the Graph
     G = nx.read_graphml(path="/home/elmagico/OPM/data/meran_nx.gxl")
@@ -26,26 +25,27 @@ def meran(iterations=50):
 
     for q in number_of_q:
 
-        for i in range(1,iterations+1):
-
+        for i in range(1, iterations + 1):
             Q = random.sample(G.nodes(), q)
             start = time()
-            yan.greedy_algorithm(G=G, Q=Q)
+            omp, sod_omp = yan.greedy_algorithm(G=G, Q=Q)
+            print(type(omp))
+            print(type(sod_omp))
             duration_greedy = time() - start
             file = "/home/elmagico/OPM/benchmarks/benchmarking_meran.txt"
             with open(file, mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
-                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str( len(Q) ),
-                    str(nx.density(G)), str(duration_greedy)])
+                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str(len(Q)),
+                     str(nx.density(G)), str(duration_greedy)])
 
             # with open("/home/elmagico/OPM/benchmarks/meran_degree.txt", mode="a") as f:
             #     writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             #     writer.writerow( nx.degree_histogram(G) )
 
-def berlin(iterations=50):
 
-    number_of_q = [10,20,50]
+def berlin(iterations=50):
+    number_of_q = [10, 20, 50]
 
     # Setting up the Graph
     G = nx.read_graphml(path="/home/elmagico/OPM/data/berlin_nx.gxl")
@@ -61,8 +61,7 @@ def berlin(iterations=50):
 
     for q in number_of_q:
 
-        for i in range(1,iterations+1):
-
+        for i in range(1, iterations + 1):
             Q = random.sample(G.nodes(), q)
             start = time()
             yan.greedy_algorithm(G=G, Q=Q)
@@ -71,16 +70,15 @@ def berlin(iterations=50):
             with open(file, mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
-                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str( len(Q) ),
-                    str(nx.density(G)), str(duration_greedy)])
+                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str(len(Q)),
+                     str(nx.density(G)), str(duration_greedy)])
             # with open("/home/elmagico/OPM/benchmarks/berlin_degree.txt", mode="a") as f:
             #     writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             #     writer.writerow( nx.degree_histogram(G) )
 
 
 def nyc(iterations=50):
-
-    number_of_q = [2,5,10,20,50]
+    number_of_q = [2, 5, 10, 20, 50]
 
     # Setting up the Graph
     G = nx.read_graphml(path="/home/elmagico/OPM/data/nyc_nx.gxl")
@@ -96,8 +94,7 @@ def nyc(iterations=50):
 
     for q in number_of_q:
 
-        for i in range(1,iterations+1):
-
+        for i in range(1, iterations + 1):
             Q = random.sample(G.nodes(), q)
             start = time()
             yan.greedy_algorithm(G=G, Q=Q)
@@ -106,15 +103,14 @@ def nyc(iterations=50):
             with open(file, mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
-                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str( len(Q) ),
-                    str(nx.density(G)), str(duration_greedy)])
+                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str(len(Q)),
+                     str(nx.density(G)), str(duration_greedy)])
             # with open("/home/elmagico/OPM/benchmarks/nyc_degree.txt", mode="a") as f:
             #     writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             #     writer.writerow( nx.degree_histogram(G) )
 
 
 def vienna(iterations=50):
-
     number_of_q = [50]
 
     # Setting up the Graph
@@ -131,8 +127,7 @@ def vienna(iterations=50):
 
     for q in number_of_q:
 
-        for i in range(1,iterations+1):
-
+        for i in range(1, iterations + 1):
             Q = random.sample(G.nodes(), q)
             # start = time()
             # base, cost_b = yan.baseline_opm(G=G, Q=Q)
@@ -145,13 +140,12 @@ def vienna(iterations=50):
             with open(file, mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
-                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str( len(Q) ),
-                    str(nx.density(G)), str(duration_greedy)])
+                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str(len(Q)),
+                     str(nx.density(G)), str(duration_greedy)])
 
 
 def tokyo(iterations=50):
-
-    number_of_q = [2,5,10,20,50]
+    number_of_q = [2, 5, 10, 20, 50]
 
     # Setting up the Graph
     G = nx.read_graphml(path="/home/elmagico/OPM/data/tokyo_nx.gxl")
@@ -167,8 +161,7 @@ def tokyo(iterations=50):
 
     for q in number_of_q:
 
-        for i in range(1,iterations+1):
-
+        for i in range(1, iterations + 1):
             Q = random.sample(G.nodes(), q)
             start = time()
             yan.greedy_algorithm(G=G, Q=Q)
@@ -177,8 +170,8 @@ def tokyo(iterations=50):
             with open(file, mode='a') as f:
                 writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow(
-                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str( len(Q) ),
-                    str(nx.density(G)), str(duration_greedy)])
+                    [str(i), str(G.number_of_nodes()), str(G.number_of_edges()), str(len(Q)),
+                     str(nx.density(G)), str(duration_greedy)])
             # if base == greedy:
             #     with open(file, mode='a') as f:
             #         writer = csv.writer(f, dialect="excel", delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -197,8 +190,8 @@ def tokyo(iterations=50):
 
 
 if __name__ == "__main__":
-    city = sys.argv[1]
-
+    # city = sys.argv[1]
+    city = "meran"
     if city == "meran":
         meran()
     elif city == "vienna":

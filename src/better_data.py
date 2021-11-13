@@ -7,9 +7,9 @@ import seaborn as sns
 
 
 def better_data():
-    # first 50 entries
-    data = pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_edges_per_node_random_05_1.txt", sep=",",
-                       nrows=50, skiprows=50, header=None)
+    # only 50 entries at a time
+    data = pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_edges_per_node_random_05_20.txt", sep=",",
+                       nrows=50, skiprows=0, header=None)
 
     # converting string to tuples
     for i in data:
@@ -21,7 +21,8 @@ def better_data():
     # get histogram info
     flat = data.stack().values
 
-    unique, counts = np.unique(flat, return_counts=True)    #help from https://stackoverflow.com/questions/28663856/how-to-count-the-occurrence-of-certain-item-in-an-ndarray
+    unique, counts = np.unique(flat,
+                               return_counts=True)  # help from https://stackoverflow.com/questions/28663856/how-to-count-the-occurrence-of-certain-item-in-an-ndarray
     d = dict(zip(unique, counts))
     percentage = list(d.values())
     percentage = [(i / sum(percentage)) * 100.0 for i in percentage]
@@ -29,8 +30,24 @@ def better_data():
     sns.set_context(context="notebook")
     ax = sns.barplot(x=list(d.keys()), y=percentage, color="cornflowerblue")
     ax.set(xlabel="Anzahl der Kanten pro Knoten", ylabel="Häufigkeit in %")
-    ax.figure.savefig("random_02_100_adj_distribution.png", bbox_inches="tight")
+    # ax.figure.savefig("random_02_100_adj_distribution.png", bbox_inches="tight")
     plt.show()
+    print(list(d.keys()))
+
+
+def print_avg():
+    data = pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_edges_per_node_random_08_20.txt",
+                       nrows=10, skiprows=1, header=None)
+    for i in data:
+        data[i] = data[i].apply(ast.literal_eval)
+
+    for column in range(data.shape[0]):
+        for row in range(data.shape[1]):
+            data[row][column] = data[row][column][1]
+    flat = data.stack().values
+    mean = np.mean(flat)
+    print(mean)
+    return
 
 
 def hist():
@@ -53,4 +70,5 @@ def hist():
 
 if __name__ == "__main__":
     # better_data()
-    hist()
+    # hist()
+    print_avg()

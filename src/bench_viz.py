@@ -30,6 +30,10 @@ def duration_plotting(type_of_graph: str):
         dfg = df[["vertices", "number_of_edges", "size_of_Q", "density", "duration_greedy"]]
         title = "Randomisierter Graph mit Dichte von 0.8"
 
+    avg_b = dfb.duration_baseline[dfb.vertices == 100].mean()
+    avg_g = dfg.duration_greedy[dfg.vertices == 100].mean()
+    print(avg_b)
+    print(avg_g)
     dfb = dfb.rename(columns={"duration_baseline": "duration"})
     dfg = dfg.rename(columns={"duration_greedy": "duration"})
     dfb["Algorithm"] = "Baseline"
@@ -49,34 +53,38 @@ def duration_plotting(type_of_graph: str):
 
     plt.legend(loc="upper left")
     # plt.savefig(type_of_graph+"_talk.png")
-    g.figure.savefig(type_of_graph+"_talk.png", bbox_inches="tight")
+    g.figure.savefig(type_of_graph + "_talk.png", bbox_inches="tight")
     plt.show()
     return
 
+
 def difference_plotting(type_of_graph: str):
-
-    df = pd.DataFrame(pd.read_csv("../benchmarks/benchmarking_" + type_of_graph +".txt"))
+    df = pd.DataFrame(pd.read_csv("../benchmarks/benchmarking_" + type_of_graph + ".txt"))
     df = df[["vertices", "number_of_edges", "same_omp", "diff_to_base"]]
+    l_of_not_same = df.diff_to_base.values != 0.0
+    val_of_not_same = df[l_of_not_same]
+    avg_not_same = val_of_not_same.diff_to_base.mean()
     same = (df.diff_to_base.values == 0.0).sum()
-    not_same = (df.diff_to_base.values != 0.0).sum()
-
-    same = same / (same+not_same)
+    not_same = l_of_not_same.sum()
+    same = same / (same + not_same)
     same *= 100
     not_same = 100 - same
     print(same, not_same)
-    g = sns.countplot(
-        data=df,
-        x=[same, not_same]
+    print(avg_not_same)
+    # g = sns.countplot(
+    #     data=df,
+    #     x=[same, not_same]
+    #
+    # )
+    # g.set(xlabel="Anzahl der Knoten", ylabel="Distanzunterschied zum wahren OMP in Prozent")
+    #
+    # plt.show()
 
-    )
-    g.set(xlabel="Anzahl der Knoten", ylabel="Distanzunterschied zum wahren OMP in Prozent")
-
-    plt.show()
 
 def difference_greedy(with_normal_greedy=True):
-
     if with_normal_greedy:
-        df_better_greedy = pd.DataFrame(pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_better_greedy_08.txt"))
+        df_better_greedy = pd.DataFrame(
+            pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_better_greedy_08.txt"))
         df_normal_greedy = pd.DataFrame(pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_random_08.txt"))
         df_better_greedy = df_better_greedy.rename(columns={"duration_greedy": "duration"})
         df_normal_greedy = df_normal_greedy.rename(columns={"duration_greedy": "duration"})
@@ -118,26 +126,26 @@ def difference_greedy(with_normal_greedy=True):
 def plot_city(name="meran"):
     if name == "meran":
         df = pd.DataFrame(pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_" + name + ".txt"))
-        dfb = df[["size_of_Q", "duration_baseline"]]
+        dfb = df[["size_of_Q", "duration_baseline", "diff_to_base"]]
         dfg = df[["size_of_Q", "duration_greedy"]]
-        dfb = dfb.rename(columns={"duration_baseline": "duration"})
-        dfg = dfg.rename(columns={"duration_greedy": "duration"})
-        dfb["Algorithm"] = "Baseline"
-        dfg["Algorithm"] = "Greedy"
-        df = pd.concat([dfb, dfg])
-        sns.set_context(context="talk")
-        g = sns.lineplot(
-            data=df, legend=True,
-            x="size_of_Q", y="duration",
-            hue="Algorithm",
-            ci="sd"
-        )
-        g.set(yscale="linear",
-              xlabel="|Q|", ylabel="Dauer in Sekunden"
-              )
-        g.set_xticks([2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50])
-        plt.legend(loc="upper left")
-        g.figure.savefig("../images/meran_q.png", bbox_inches="tight")
+        # dfb = dfb.rename(columns={"duration_baseline": "duration"})
+        # dfg = dfg.rename(columns={"duration_greedy": "duration"})
+        # dfb["Algorithm"] = "Baseline"
+        # dfg["Algorithm"] = "Greedy"
+        # df = pd.concat([dfb, dfg])
+        # sns.set_context(context="talk")
+        # g = sns.lineplot(
+        #     data=df, legend=True,
+        #     x="size_of_Q", y="duration",
+        #     hue="Algorithm",
+        #     ci="sd"
+        # )
+        # g.set(yscale="linear",
+        #       xlabel="|Q|", ylabel="Dauer in Sekunden"
+        #       )
+        # g.set_xticks([2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50])
+        # plt.legend(loc="upper left")
+        # g.figure.savefig("../images/meran_q.png", bbox_inches="tight")
         plt.show()
     else:
         df = pd.DataFrame(pd.read_csv(filepath_or_buffer="../benchmarks/benchmarking_" + name + ".txt"))
@@ -196,11 +204,44 @@ def streetnetwork(name="meran"):
         g.figure.savefig("../images/" + name + "_distribution_better.png", bbox_inches="tight")
 
 
+def k_plotting():
+    ks = [3, 4, 5, 10, 20, 40, 80]
+    df = pd.DataFrame()
+    for k in ks:
+        file = "../benchmarks/benchmarking_" + str(k) + "regular.txt"
+        d = pd.DataFrame(pd.read_csv(filepath_or_buffer=file))
+        dfb = d[["duration_baseline"]]
+        dfg = d[["duration_greedy"]]
+        print(dfb.duration_baseline.mean(), dfg.duration_greedy.mean())
+        dfb = dfb.rename(columns={"duration_baseline": "duration"})
+        dfg = dfg.rename(columns={"duration_greedy": "duration"})
+        dfb["Algorithm"] = "Baseline"
+        dfg["Algorithm"] = "Greedy"
+        dfk = pd.concat([dfb, dfg])
+        dfk["k"] = k
+        df = df.append(dfk)
+
+    sns.set_context(context="talk")
+    g = sns.lineplot(
+        data=df, legend=True,
+        x="k", y="duration",
+        hue="Algorithm",
+        ci="sd"
+    )
+    g.set(yscale="linear",
+          xlabel=r"$k$", ylabel="Dauer in Sekunden")
+    plt.legend(loc="upper left")
+    g.figure.savefig("k_regular_graphs_talk.png", bbox_inches="tight")
+    plt.show()
+    return
+
+
 if __name__ == "__main__":
-    # duration_plotting(type_of_graph="grid")
+    # duration_plotting(type_of_graph="random_02")
     # difference_greedy()
-    # difference_plotting(type_of_graph="random_02")
-    plot_city("vienna")
+    difference_plotting(type_of_graph="meran")
+    # plot_city("nyc")
+    # k_plotting()
     # streetnetwork("berlin")
     # streetnetwork("nyc")
     # streetnetwork("vienna")
