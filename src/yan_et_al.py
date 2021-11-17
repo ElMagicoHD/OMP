@@ -20,7 +20,7 @@ def heuristic(u, v):
     return dist
 
 
-def baseline_omp(G, Q):
+def baseline_algorithm(G, Q):
     """
     Baseline algorithm for finding an OMP. Source: Da Yan et al. [1]
     :param G: the graph on which the OMP should be found
