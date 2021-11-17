@@ -94,6 +94,7 @@ def benchmark(G, size_of_Q):
     else:
         diff_in_sec = duration_greedy - duration_baseline
         print("And the baseline algorithm was ", diff_in_sec, "seconds faster.")
+
     print("Drawing graph...")
     color_list = ["#CCEEFF" for i in range(G.number_of_nodes())]
     for q in Q:
@@ -102,9 +103,6 @@ def benchmark(G, size_of_Q):
     color_list[list(G.nodes()).index(baseline_omp)] = "#FF00FF"
     nx.draw_networkx(G=G, pos=nx.get_node_attributes(G=G, name="pos"), node_color=color_list, with_labels=False,
                      node_size=25000 / G.number_of_nodes(), alpha=0.8)
-    f = plt.figure()
-    f.set_figwidth(20)
-    f.set_figheight(20)
     print(
         "Legend:\nblue: node\nyellow: Q\nred: greedy OMP\ngreen: baseline OMP\nIf there is no red node, then the algorithms found the same OMP.")
     plt.show()
