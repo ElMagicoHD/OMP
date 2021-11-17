@@ -8,9 +8,9 @@ def heuristic(u, v):
     """
     Computes the straight-line distance (Luftlinie) in order to use as the heuristic for the A*-algorithm.
     :param u: startnode for the straight-line distance
-    :type u: numpy.int64 or string
+    :type u: numpy.int64 or str
     :param v: endnode for the straight-line distance
-    :type v: numpy.int64 or string
+    :type v: numpy.int64 or str
     :return: the computed straight-line distance
     :rtype: float or numpy.float64
     """
@@ -24,11 +24,11 @@ def baseline_algorithm(G, Q):
     """
     Baseline algorithm for finding an OMP. Source: Da Yan et al. [1]
     :param G: the graph on which the OMP should be found
-    :type G: networkx.Graph
+    :type G: networkx.classes.graph.Graph
     :param Q: the list of starting points to find an OMP
     :type Q: list
     :return: omp - the found OMP. sod_omp - the sum of distances for all q in Q to omp on G
-    :rtype: omp - numpy.int64 or string. sod_omp - numpy.float64
+    :rtype: omp - numpy.int64 or str. sod_omp - numpy.float64
     """
     omp = None
     min_cost = float('inf')
@@ -68,11 +68,11 @@ def greedy_algorithm(G, Q):
     Greedy algorithm from Da Yan et al. [1]
 
     :param G: the graph on which the OMP should be found
-    :type G: networkx.Graph
+    :type G: networkx.classes.graph.Graph
     :param Q: the list of starting points to find an OMP
     :type Q: list
     :return: omp - the found OMP. sod_omp - the sum of distances for all q in Q to omp on G
-    :rtype: omp - numpy.int64 or string. sod_omp - numpy.float64
+    :rtype: omp - numpy.int64 or str. sod_omp - numpy.float64
     """
     # compute center of gravity
     nodes_with_positions = pd.DataFrame.from_dict(nx.get_node_attributes(G, "pos"))
@@ -122,11 +122,11 @@ def better_greedy_algorithm(G, Q):
     Improved greedy algorithm with base from Da Yan et al. [1]
 
     :param G: the graph on which the OMP should be found
-    :type G: networkx.Graph
+    :type G: networkx.classes.graph.Graph
     :param Q: the list of starting points to find an OMP
     :type Q: list
     :return: omp - the found OMP. sod_omp - the sum of distances for all q in Q to omp on G
-    :rtype: omp - numpy.int64 or string. sod_omp - numpy.float64
+    :rtype: omp - numpy.int64 or str. sod_omp - numpy.float64
     """
     # compute center of gravity
     nodes_with_positions = pd.DataFrame.from_dict(nx.get_node_attributes(G, "pos"))
