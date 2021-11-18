@@ -1,7 +1,7 @@
 # OMP
 ## Implementierung und Evaluation eines effizienten Algorithmus für den optimalen Treffpunkt in gewichteten Graphen
 Bachelor Thesis about the optimal meeting point (OMP) problem.  
-B.Sc. Informatik / B.Sc. Computer Science @ TU Berlin
+B.Sc. Informatik / B.Sc. Computer Science @ [TU Berlin](https://www.tu.berlin)
 
 Implementing the greedy algorithm and the baseline algorithm by [Da Yan et al.](https://yanlab19870714.github.io/yanda/papers/road.pdf)
 
