@@ -20,7 +20,7 @@ def city(name, size_of_Q):
     """
     try:
         G = nx.read_graphml(path="../data/" + name + "_nx.graphml")
-        os.path.abspath("../data/" + name + "_nx.graphml")
+        print(os.path.abspath("../data/" + name + "_nx.graphml"))
     except FileNotFoundError:
         print("Downloading city...")
         ox.config(timeout=10000)  # big timeout to download large cities like tokyo
