@@ -32,7 +32,7 @@ def city(name, size_of_Q):
         weight_index = data.index("  <key id=\"d15\" for=\"edge\" attr.name=\"length\" attr.type=\"string\" />\n")
         x_index = data.index("  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"string\" />\n")
         y_index = data.index("  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"string\" />\n")
-        undirected_index = data.index("  <graph edgedefault=\"undirected\">")
+        undirected_index = data.index("  <graph edgedefault=\"directed\">")
 
         data[weight_index] = "  <key id=\"d15\" for=\"edge\" attr.name=\"weight\" attr.type=\"float\" />\n"
         data[x_index] = "  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"float\" />\n"
