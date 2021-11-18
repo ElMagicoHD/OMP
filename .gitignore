@@ -54,5 +54,5 @@ wheels/
 
 
 #too big data
-!data/.gitkeep
 data/*
+!data/.gitkeep
