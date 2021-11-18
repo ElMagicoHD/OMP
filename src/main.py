@@ -1,7 +1,6 @@
 import networkx as nx
 import yan_et_al as yan
-# relevant for city graphs
-import osmnx as ox
+import osmnx as ox  # relevant for city graphs
 import matplotlib.pyplot as plt
 from time import time
 import shutil
@@ -29,10 +28,17 @@ def city(name, size_of_Q):
         shutil.copyfile("../data/" + name + ".graphml", "../data/" + name + "_nx.graphml")
         with open("../data/" + name + "_nx.graphml", 'r') as file:
             data = file.readlines()
-        data[8] = "  <key id=\"d15\" for=\"edge\" attr.name=\"weight\" attr.type=\"float\" />\n"
-        data[18] = "  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"float\" />\n"
-        data[19] = "  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"float\" />\n"
-        data[24] = "  <graph edgedefault=\"undirected\">"
+
+        weight_index = data.index("  <key id=\"d15\" for=\"edge\" attr.name=\"length\" attr.type=\"string\" />\n")
+        x_index = data.index("  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"string\" />\n")
+        y_index = data.index("  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"string\" />\n")
+        undirected_index = data.index("  <graph edgedefault=\"undirected\">")
+
+        data[weight_index] = "  <key id=\"d15\" for=\"edge\" attr.name=\"weight\" attr.type=\"float\" />\n"
+        data[x_index] = "  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"float\" />\n"
+        data[y_index] = "  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"float\" />\n"
+        data[undirected_index] = "  <graph edgedefault=\"undirected\">"
+
         with open("../data/" + name + "_nx.graphml", 'w') as file:
             file.writelines(data)
         G = nx.read_graphml(path="../data/" + name + "_nx.graphml")
@@ -142,7 +148,6 @@ def benchmark(G, size_of_Q, name_of_city=None):
     :return: NoneType
     """
     Q = rnd.sample(list(G.nodes()), size_of_Q)
-    print(type(G))
     print("Greedy algorithm start...")
     start = time()
     greedy_omp, greedy_sod = yan.greedy_algorithm(G=G, Q=Q)
@@ -171,7 +176,7 @@ def benchmark(G, size_of_Q, name_of_city=None):
 
     print("Drawing graph...")
     print(
-        "Legend:\nlight blue: node\ndark blue: Q\norange: greedy OMP\nmagenta: baseline OMP\nIf there is no orange node, then the algorithms found the same OMP.\nIf there are less dark blue points than |Q|, then the OMP is a node of Q.")
+        "Legend:\nlight blue: node\ndark blue: Q\norange: greedy OMP\nmagenta: baseline OMP\nIf there is no orange node, then the algorithms found the same OMP.\nIf there are less dark blue points than |Q|, then the OMP is a node of Q.\nNodes could be overlapping.")
     color_list = ["#CCEEFF" for i in range(G.number_of_nodes())]  # light blue
     for q in Q:
         color_list[list(G.nodes()).index(q)] = "#0000FF"  # dark blue
