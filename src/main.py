@@ -30,15 +30,32 @@ def city(name, size_of_Q):
         with open("../data/" + name + "_nx.graphml", 'r') as file:
             data = file.readlines()
 
-        weight_index = data.index("  <key id=\"d15\" for=\"edge\" attr.name=\"length\" attr.type=\"string\" />\n")
-        x_index = data.index("  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"string\" />\n")
-        y_index = data.index("  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"string\" />\n")
-        undirected_index = data.index('  <graph edgedefault=\"directed\">\n')
-
-        data[weight_index] = "  <key id=\"d15\" for=\"edge\" attr.name=\"weight\" attr.type=\"float\" />\n"
-        data[x_index] = "  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"float\" />\n"
-        data[y_index] = "  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"float\" />\n"
-        data[undirected_index] = "  <graph edgedefault=\"undirected\"\n>"
+        for i, line in enumerate(data):
+            if 'attr.name="length"' in line:
+                data[i] = data[i].replace('attr.name="length" attr.type="string"',
+                                          'attr.name="weight" attr.type="float"')
+                break
+        for i, line in enumerate(data):
+            if 'attr.name="x"' in line:
+                data[i] = data[i].replace('attr.type="string"', 'attr.type="float"')
+                break
+        for i, line in enumerate(data):
+            if 'attr.name="y"' in line:
+                data[i] = data[i].replace('attr.type="string"', 'attr.type="float"')
+                break
+        for i, line in enumerate(data):
+            if 'graph edgedefault="directed"' in line:
+                data[i] = data[i].replace('graph edgedefault="directed"', 'graph edgedefault="undirected"')
+                break
+        # weight_index = data.index("  <key id=\"d15\" for=\"edge\" attr.name=\"length\" attr.type=\"string\" />\n")
+        # x_index = data.index("  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"string\" />\n")
+        # y_index = data.index("  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"string\" />\n")
+        # undirected_index = data.index('  <graph edgedefault=\"directed\">\n')
+        #
+        # data[weight_index] = "  <key id=\"d15\" for=\"edge\" attr.name=\"weight\" attr.type=\"float\" />\n"
+        # data[x_index] = "  <key id=\"d5\" for=\"node\" attr.name=\"x\" attr.type=\"float\" />\n"
+        # data[y_index] = "  <key id=\"d4\" for=\"node\" attr.name=\"y\" attr.type=\"float\" />\n"
+        # data[undirected_index] = "  <graph edgedefault=\"undirected\"\n>"
 
         with open("../data/" + name + "_nx.graphml", 'w') as file:
             file.writelines(data)
