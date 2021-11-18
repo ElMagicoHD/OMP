@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 from time import time
 import shutil
 import random as rnd
-# debug
-import os
 
 
 def city(name, size_of_Q):
